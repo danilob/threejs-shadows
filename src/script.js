@@ -171,7 +171,7 @@ const torus = new THREE.Mesh(
 torus.position.x = 1.5
 
 const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(5, 5),
+    new THREE.PlaneGeometry(10, 10),
     material
 )
 plane.rotation.x = - Math.PI * 0.5
@@ -207,9 +207,9 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 2.65
-camera.position.y = 2.65
-camera.position.z = 5.30
+camera.position.x = 4
+camera.position.y = 4
+camera.position.z = 9
 scene.add(camera)
 
 // Controls
