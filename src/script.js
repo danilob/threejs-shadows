@@ -67,7 +67,7 @@ pane.addInput(PARAMS, "visible",{
     PARAMS.visibleLightHelper()
 })
 
-const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.3)
+const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.4)
 directionalLight.position.set(5, 2.5, 0.5)
 scene.add(directionalLight)
 directionalLight.visible = true
@@ -122,13 +122,24 @@ pane.addInput(rectAreaLight,"visible",{
     PARAMS.checkVisible()
 })
 
-const spotLight = new THREE.SpotLight(0x78ff00, 0.5, 10, Math.PI * 0.1, 0.25, 1)
+const spotLight = new THREE.SpotLight(0x78ff00, 0.4, 10, Math.PI * 0.1, 0.25, 1)
 spotLight.position.set(0, 2, 3)
 spotLight.target.position.x = -0.75
 scene.add(spotLight.target)
 scene.add(spotLight)
 
-spotLight.visible = false
+spotLight.visible = true
+spotLight.castShadow = true
+spotLight.shadow.mapSize.width = 1024
+spotLight.shadow.mapSize.height = 1024
+spotLight.shadow.camera.fov = 35
+spotLight.shadow.camera.near = 2
+spotLight.shadow.camera.far = 7
+
+const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera)
+scene.add(spotLightCameraHelper)
+spotLightCameraHelper.visible = false
+
 pane.addInput(spotLight,"visible",{
     "label": "luz spot",
 }).on("change",(ev)=>{
