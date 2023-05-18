@@ -52,7 +52,7 @@ const scene = new THREE.Scene()
 /**
  * Lights
  */
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
 scene.add(ambientLight)
 pane.addInput(ambientLight, "intensity", {
     label: "amb. level",
@@ -67,7 +67,7 @@ pane.addInput(PARAMS, "visible",{
     PARAMS.visibleLightHelper()
 })
 
-const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.4)
+const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.3)
 directionalLight.position.set(5, 2.5, 0.5)
 scene.add(directionalLight)
 directionalLight.visible = true
@@ -103,7 +103,18 @@ pane.addInput(hemisphereLight,"visible",{
 const pointLight = new THREE.PointLight(0xff9000, 0.5)
 pointLight.position.set(1, 1, 1)
 scene.add(pointLight)
-pointLight.visible = false
+pointLight.visible = true
+pointLight.castShadow = true
+pointLight.shadow.mapSize.width = 1024
+pointLight.shadow.mapSize.height = 1024
+
+pointLight.shadow.camera.near = 0.1
+pointLight.shadow.camera.far = 8
+
+const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera)
+scene.add(pointLightCameraHelper)
+pointLightCameraHelper.visible = false
+
 pane.addInput(pointLight,"visible",{
     "label": "luz pontual",
 }).on("change",(ev)=>{
@@ -122,7 +133,7 @@ pane.addInput(rectAreaLight,"visible",{
     PARAMS.checkVisible()
 })
 
-const spotLight = new THREE.SpotLight(0x78ff00, 0.4, 10, Math.PI * 0.1, 0.25, 1)
+const spotLight = new THREE.SpotLight(0x78ff00, 0.3, 10, Math.PI * 0.1, 0.25, 1)
 spotLight.position.set(0, 2, 3)
 spotLight.target.position.x = -0.75
 scene.add(spotLight.target)
