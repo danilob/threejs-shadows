@@ -72,6 +72,8 @@ directionalLight.position.set(5, 2.5, 0.5)
 scene.add(directionalLight)
 directionalLight.visible = true
 directionalLight.castShadow = true
+directionalLight.shadow.mapSize.width = 1024
+directionalLight.shadow.mapSize.height = 1024
 directionalLight.shadow.camera.near = 3
 directionalLight.shadow.camera.far = 11
 directionalLight.shadow.camera.top = 2
@@ -245,6 +247,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 /**
  * Animate
