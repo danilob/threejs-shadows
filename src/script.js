@@ -68,9 +68,21 @@ pane.addInput(PARAMS, "visible",{
 })
 
 const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.3)
-directionalLight.position.set(1, 0.25, 0)
+directionalLight.position.set(5, 2.5, 0.5)
 scene.add(directionalLight)
-directionalLight.visible = false
+directionalLight.visible = true
+directionalLight.castShadow = true
+directionalLight.shadow.camera.near = 3
+directionalLight.shadow.camera.far = 11
+directionalLight.shadow.camera.top = 2
+directionalLight.shadow.camera.right = 2
+directionalLight.shadow.camera.bottom = -2
+directionalLight.shadow.camera.left = -2
+
+const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+scene.add(directionalLightCameraHelper)
+directionalLightCameraHelper.visible = false
+
 pane.addInput(directionalLight,"visible",{
     "label": "luz direcional",
 }).on("change",(ev)=>{
@@ -158,24 +170,31 @@ const sphere = new THREE.Mesh(
     material
 )
 sphere.position.x = - 1.5
+sphere.receiveShadow = true
+sphere.castShadow = true
 
 const cube = new THREE.Mesh(
     new THREE.BoxGeometry(0.75, 0.75, 0.75),
     material
 )
+cube.receiveShadow = true
+cube.castShadow = true
 
 const torus = new THREE.Mesh(
     new THREE.TorusGeometry(0.3, 0.2, 32, 64),
     material
 )
 torus.position.x = 1.5
+torus.receiveShadow = true
+torus.castShadow = true
 
 const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(5, 5),
+    new THREE.PlaneGeometry(10, 10),
     material
 )
 plane.rotation.x = - Math.PI * 0.5
 plane.position.y = - 0.65
+plane.receiveShadow = true
 
 scene.add(sphere, cube, torus, plane)
 
@@ -207,9 +226,9 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 2.65
-camera.position.y = 2.65
-camera.position.z = 5.30
+camera.position.x = 4
+camera.position.y = 4
+camera.position.z = 9
 scene.add(camera)
 
 // Controls
@@ -225,6 +244,7 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.shadowMap.enabled = true
 
 /**
  * Animate
